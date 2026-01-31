@@ -11,12 +11,14 @@ Soil Analysis/
 │       └── raw/
 │           └── data_core.csv      # Main dataset (8000 rows, 9 columns)
 ├── src/
-│   └── preprocess.ipynb            # Data preprocessing notebook
-├── venv/                           # Virtual environment (created by setup)
-├── requirements.txt                # Python dependencies
+│   ├── preprocessing.ipynb        # Data preprocessing pipeline
+│   └── eda.ipynb                  # Exploratory data analysis
+├── venv/                          # Virtual environment (created by setup)
 ├── setup_environment.ps1           # Environment setup script
-├── activate_env.ps1                # Quick activation script
-└── README.md                       # This file
+├── activate_env.ps1               # Quick activation script
+├── NEXT_STEPS.md                  # Recommended next steps (feature engineering, training)
+├── QUICK_START.md                 # Quick start guide
+└── README.md                      # This file
 ```
 
 ## Dataset
@@ -99,39 +101,45 @@ python -m ipykernel install --user --name soil-analysis --display-name "Python (
    .\activate_env.ps1
    ```
 
-2. Open your notebook:
+2. Open a notebook:
    ```powershell
-   jupyter notebook src/preprocess.ipynb
+   jupyter notebook src/eda.ipynb
+   jupyter notebook src/preprocessing.ipynb
    ```
+   Or open the `src/` folder in VS Code/Cursor and run cells in either notebook.
 
-3. Make sure to select the correct kernel in your notebook (should be "Python (Soil Analysis)" or your system Python)
+3. **EDA** (`src/eda.ipynb`): Run cells in order — Load Data, then Dataset Overview, Data Quality Checks, Categorical Analysis, Numerical Distributions, Correlation Analysis.
+
+4. Select the correct kernel in your notebook (e.g. "Python (Soil Analysis)" or your venv Python).
 
 ## Troubleshooting
 
 ### Jupyter Kernel Issues
 
-If you encounter kernel connection issues, see `KERNEL_TROUBLESHOOTING.md` or run:
-```powershell
-.\fix_kernel.ps1
-```
+- Ensure the virtual environment is activated before starting Jupyter.
+- In the notebook, choose the kernel that points to your project’s Python (e.g. the venv or "Python (Soil Analysis)" if registered).
 
 ### Package Import Errors
 
 If you get import errors:
-1. Make sure the virtual environment is activated
-2. Verify packages are installed: `python -m pip list`
-3. Reinstall requirements: `python -m pip install -r requirements.txt`
+1. Activate the virtual environment: `.\activate_env.ps1`
+2. Check installed packages: `python -m pip list`
+3. Reinstall dependencies: run `.\setup_environment.ps1` again or install manually (pandas, matplotlib, seaborn, scikit-learn, jupyter).
 
 ## Next Steps
 
-- [ ] Explore and visualize the dataset
-- [ ] Perform data preprocessing and feature engineering
-- [ ] Train ML models for fertilizer recommendation
-- [ ] Evaluate model performance
-- [ ] Create prediction pipeline
+- [x] Environment setup
+- [x] Data preprocessing pipeline (`src/preprocessing.ipynb`)
+- [x] Exploratory data analysis (`src/eda.ipynb`)
+- [ ] Feature engineering (encode categoricals, optional new features)
+- [ ] Train–test split and model training
+- [ ] Evaluation and prediction pipeline
+
+See **NEXT_STEPS.md** for detailed steps and code snippets.
 
 ## Notes
 
-- Always activate the virtual environment before working on the project
-- The dataset is located at `data/data/raw/data_core.csv`
-- Use Jupyter notebooks for exploratory data analysis and model development
+- Always activate the virtual environment before working on the project.
+- Dataset path: `data/data/raw/data_core.csv` (from project root); in `src/` notebooks use `../data/data/raw/data_core.csv`.
+- **EDA** covers: overview, quality checks, categorical value counts, numerical histograms, and correlation heatmap.
+- For the full roadmap (feature engineering, models, evaluation), see **NEXT_STEPS.md**.
