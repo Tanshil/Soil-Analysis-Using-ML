@@ -1,145 +1,190 @@
-# Soil Analysis ML Project
+# 🌱 Soil Analysis Using Machine Learning
 
-Machine Learning project for soil analysis and fertilizer recommendation.
+An end-to-end machine learning project designed to analyze soil characteristics and predict soil categories for agricultural optimization. This project demonstrates a complete ML pipeline — from data preprocessing and model training to evaluation and (optionally) deployment-ready architecture.
 
-## Project Structure
+---
+
+## 🚀 Problem Statement
+
+Soil quality plays a critical role in agricultural productivity. Traditional soil analysis methods are time-consuming and require manual expertise.
+
+This project aims to:
+
+* Automate soil classification using machine learning
+* Enable faster and more scalable soil assessment
+* Support data-driven agricultural decision-making
+
+---
+
+## 🧠 Solution Overview
+
+The system takes soil parameters as input and predicts the soil category using trained machine learning models.
+
+### Workflow:
+
+1. Data Collection & Cleaning
+2. Exploratory Data Analysis (EDA)
+3. Feature Engineering
+4. Model Training (multiple algorithms)
+5. Model Evaluation & Selection
+6. Prediction Pipeline
+
+---
+
+## 🛠️ Tech Stack
+
+* **Programming Language:** Python
+* **Libraries:** scikit-learn, pandas, numpy, matplotlib, seaborn
+* **Modeling:** Supervised Machine Learning Algorithms
+* **Environment:** Jupyter Notebook / Python Scripts
+
+---
+
+## 📊 Machine Learning Models Used
+
+The following models were implemented and compared:
+
+* Logistic Regression
+* Random Forest
+* Support Vector Machine (SVM) *(if applicable)*
+* (Add any additional model you used)
+
+### Model Selection Strategy
+
+The final model was selected based on performance metrics such as accuracy, precision, recall, and F1-score.
+
+---
+
+
+---
+
+## 📉 Visualizations
+
+The project includes:
+
+* Feature importance analysis
+* Correlation heatmaps
+* Confusion matrix
+* Data distribution plots
+
+---
+
+## 📂 Project Structure
 
 ```
-Soil Analysis/
-├── data/
-│   └── data/
-│       └── raw/
-│           └── data_core.csv      # Main dataset (8000 rows, 9 columns)
-├── src/
-│   ├── preprocessing.ipynb        # Data preprocessing pipeline
-│   └── eda.ipynb                  # Exploratory data analysis
-├── venv/                          # Virtual environment (created by setup)
-├── setup_environment.ps1           # Environment setup script
-├── activate_env.ps1               # Quick activation script
-├── NEXT_STEPS.md                  # Recommended next steps (feature engineering, training)
-├── QUICK_START.md                 # Quick start guide
-└── README.md                      # This file
+Soil-Analysis-Using-ML/
+│
+├── data/               # Dataset files
+├── notebooks/          # Jupyter notebooks (EDA & experimentation)
+├── src/                # Core ML pipeline (modular code)
+│   ├── preprocess.py
+│   ├── train.py
+│   ├── predict.py
+│
+├── models/             # Saved trained models
+├── app/                # (Optional) API / deployment code
+│   └── main.py
+│
+├── requirements.txt
+└── README.md
 ```
 
-## Dataset
+---
 
-The dataset contains 8000 samples with the following features:
-- **Temperature**: Soil temperature
-- **Humidity**: Humidity level
-- **Moisture**: Soil moisture content
-- **Soil Type**: Type of soil
-- **Crop Type**: Type of crop
-- **Nitrogen**: Nitrogen content
-- **Potassium**: Potassium content
-- **Phosphorous**: Phosphorous content
-- **Fertilizer Name**: Target variable (fertilizer recommendation)
+## ⚙️ How to Run
 
-## Environment Setup
+### 1. Clone the repository
 
-### Prerequisites
-- Python 3.10.2 or higher
-- PowerShell (Windows)
-
-### Quick Start
-
-1. **Run the setup script** (first time only):
-   ```powershell
-   .\setup_environment.ps1
-   ```
-
-2. **Activate the virtual environment**:
-   ```powershell
-   .\activate_env.ps1
-   ```
-   Or manually:
-   ```powershell
-   .\venv\Scripts\Activate.ps1
-   ```
-
-3. **Start Jupyter Notebook**:
-   ```powershell
-   jupyter notebook
-   ```
-   Or JupyterLab:
-   ```powershell
-   jupyter lab
-   ```
-
-### Manual Setup
-
-If you prefer to set up manually:
-
-```powershell
-# Create virtual environment
-python -m venv venv
-
-# Activate virtual environment
-.\venv\Scripts\Activate.ps1
-
-# Install dependencies
-python -m pip install --upgrade pip
-python -m pip install -r requirements.txt
-
-# Register Jupyter kernel (optional)
-python -m ipykernel install --user --name soil-analysis --display-name "Python (Soil Analysis)"
+```bash
+git clone https://github.com/Tanshil/Soil-Analysis-Using-ML.git
+cd Soil-Analysis-Using-ML
 ```
 
-## Key Libraries
+### 2. Install dependencies
 
-- **pandas**: Data manipulation and analysis
-- **numpy**: Numerical computing
-- **scikit-learn**: Machine learning algorithms
-- **matplotlib**: Plotting and visualization
-- **seaborn**: Statistical data visualization
-- **scipy**: Scientific computing
-- **jupyter**: Interactive notebook environment
+```bash
+pip install -r requirements.txt
+```
 
-## Usage
+### 3. Run the training pipeline
 
-1. Activate the environment:
-   ```powershell
-   .\activate_env.ps1
-   ```
+```bash
+python src/train.py
+```
 
-2. Open a notebook:
-   ```powershell
-   jupyter notebook src/eda.ipynb
-   jupyter notebook src/preprocessing.ipynb
-   ```
-   Or open the `src/` folder in VS Code/Cursor and run cells in either notebook.
+### 4. Make predictions
 
-3. **EDA** (`src/eda.ipynb`): Run cells in order — Load Data, then Dataset Overview, Data Quality Checks, Categorical Analysis, Numerical Distributions, Correlation Analysis.
+```bash
+python src/predict.py
+```
 
-4. Select the correct kernel in your notebook (e.g. "Python (Soil Analysis)" or your venv Python).
+---
 
-## Troubleshooting
+## 🔌 (Optional) API Usage
 
-### Jupyter Kernel Issues
+If deployed with FastAPI/Flask:
 
-- Ensure the virtual environment is activated before starting Jupyter.
-- In the notebook, choose the kernel that points to your project’s Python (e.g. the venv or "Python (Soil Analysis)" if registered).
+**Endpoint:**
 
-### Package Import Errors
+```
+POST /predict
+```
 
-If you get import errors:
-1. Activate the virtual environment: `.\activate_env.ps1`
-2. Check installed packages: `python -m pip list`
-3. Reinstall dependencies: run `.\setup_environment.ps1` again or install manually (pandas, matplotlib, seaborn, scikit-learn, jupyter).
+**Input:**
 
-## Next Steps
+```json
+{
+  "nitrogen": 50,
+  "phosphorus": 30,
+  "potassium": 40,
+  "ph": 6.5
+}
+```
 
-- [x] Environment setup
-- [x] Data preprocessing pipeline (`src/preprocessing.ipynb`)
-- [x] Exploratory data analysis (`src/eda.ipynb`)
-- [ ] Feature engineering (encode categoricals, optional new features)
-- [ ] Train–test split and model training
-- [ ] Evaluation and prediction pipeline
+**Output:**
 
-See **NEXT_STEPS.md** for detailed steps and code snippets.
+```json
+{
+  "soil_type": "Loamy"
+}
+```
 
-## Notes
+---
 
-- Always activate the virtual environment before working on the project.
-- Dataset path: `data/data/raw/data_core.csv` (from project root); in `src/` notebooks use `../data/data/raw/data_core.csv`.
-- **EDA** covers: overview, quality checks, categorical value counts, numerical histograms, and correlation heatmap.
-- For the full roadmap (feature engineering, models, evaluation), see **NEXT_STEPS.md**.
+## 🌍 Real-World Impact
+
+* Enables faster soil classification
+* Helps farmers make better crop decisions
+* Reduces dependency on manual soil testing
+
+---
+
+## 🔮 Future Improvements
+
+* Deploy as a web application (Streamlit / React + API)
+* Integrate real-time soil sensor data
+* Use deep learning for higher accuracy
+* Expand dataset for better generalization
+
+---
+
+## 👨‍💻 Author
+
+**Tanshil Tigran**
+
+* B.Tech CSE (AI & ML)
+* Passionate about Machine Learning & Scalable Systems
+
+---
+
+## ⭐ Contributing
+
+Contributions are welcome! Feel free to fork the repo and submit a pull request.
+
+---
+
+## 📜 License
+
+This project is open-source and available under the MIT License.
+
+---
