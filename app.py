@@ -15,10 +15,11 @@ def load_model():
         st.stop()
     best_model_path = os.path.join(MODEL_DIR, model_files[0])
     scaler = joblib.load(SCALER_PATH)
+    
     model = joblib.load(best_model_path)
     return model, scaler, best_model_path
 
-def preprocess_input(input_df, scaler):
+def preprocess_input(input_df, scaler, model):
     # Replicate training preprocessing
     X_encoded = pd.get_dummies(input_df, columns=["Soil Type", "Crop Type"], prefix=["Soil", "Crop"])
     
@@ -27,14 +28,17 @@ def preprocess_input(input_df, scaler):
         X_encoded["NPK_total"] = X_encoded["Nitrogen"] + X_encoded["Phosphorous"] + X_encoded["Potassium"]
     if "Temperature" in X_encoded and "Humidity" in X_encoded:
         X_encoded["Temp_Humidity"] = X_encoded["Temperature"] * X_encoded["Humidity"]
-    if "Moisture" in X_encoded:
-        X_encoded["Moisture_level"] = pd.qcut(X_encoded["Moisture"], q=3, labels=["Low", "Medium", "High"])
-        X_encoded = pd.get_dummies(X_encoded, columns=["Moisture_level"], prefix="Moisture")
-    
+    # Do not use qcut on single-row inference input.
+    # Moisture one-hot columns are handled by reindexing to model feature columns.
+
     to_scale = ["Temperature", "Humidity", "Moisture", "Nitrogen", "Potassium", "Phosphorous", "NPK_total", "Temp_Humidity"]
     to_scale = [c for c in to_scale if c in X_encoded.columns]
     X_encoded[to_scale] = scaler.transform(X_encoded[to_scale])
-    
+
+    # Align with training-time feature set to avoid shape/column mismatch
+    if hasattr(model, "feature_names_in_"):
+        X_encoded = X_encoded.reindex(columns=model.feature_names_in_, fill_value=0.0)
+
     return X_encoded
 
 st.title("🌱 Soil Fertilizer Recommender")
@@ -53,8 +57,11 @@ with col2:
     n = st.number_input("Nitrogen", 0.0, 100.0, 20.0)
     p = st.number_input("Phosphorous", 0.0, 100.0, 30.0)
     k = st.number_input("Potassium", 0.0, 100.0, 25.0)
-    soil = st.selectbox("Soil Type", ["Clay", "Sandy", "Loam", "Black", "Red"])
-    crop = st.selectbox("Crop Type", ["Maize", "Sugarcane", "Cotton", "Tobacco", "Wheat", "Rice", "Millets", "Oil seeds", "Pulses", "Groundnut", "Barley", "Jowar"])
+    soil = st.selectbox("Soil Type", ["Clayey", "Sandy", "Loamy", "Black", "Red"])
+    crop = st.selectbox(
+        "Crop Type",
+        ["Maize", "Sugarcane", "Cotton", "Tobacco", "Wheat", "Paddy", "Millets", "Oil seeds", "Pulses", "Ground Nuts", "Barley"],
+    )
 
 input_data = pd.DataFrame({
     "Temperature": [temp], "Humidity": [hum], "Moisture": [moist],
@@ -63,7 +70,7 @@ input_data = pd.DataFrame({
 })
 
 if st.button("Recommend Fertilizer"):
-    processed = preprocess_input(input_data, scaler)
+    processed = preprocess_input(input_data, scaler, model)
     prediction = model.predict(processed)[0]
     probs = model.predict_proba(processed)[0] if hasattr(model, 'predict_proba') else None
     
