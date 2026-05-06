@@ -1,78 +1,46 @@
-# Quick Start Guide
+# Quick Start Guide (Cross-Platform)
 
-## Activating the Environment
+## Setup (First Time)
+**Linux/Mac/Git Bash**: `./setup.sh`  
+**Windows CMD**: `setup.bat`
 
-You have several options to activate the virtual environment:
-
-### Option 1: Direct Activation (Recommended)
-```powershell
-.\venv\Scripts\Activate.ps1
+## Activation
+**Linux/Mac/Git Bash:**
+```
+source activate.sh
+# or source venv/bin/activate
 ```
 
-### Option 2: Using the Activation Script
-```powershell
-.\activate_env.ps1
+**Windows CMD:**
+```
+activate.bat
+# or venv\\Scripts\\activate.bat
 ```
 
-If you get an execution policy error, try:
-```powershell
-powershell -ExecutionPolicy Bypass -File .\activate_env.ps1
+**Windows PowerShell:**
+```
+venv\\Scripts\\Activate.ps1
 ```
 
-### Option 3: Manual Activation
-```powershell
-cd "c:\Users\tigra\Soil Analysis"
-.\venv\Scripts\Activate.ps1
+*Look for `(venv)` in prompt.*
+
+## Usage
+```
+jupyter notebook     # or jupyter lab
+python src/run_training.py
+pip install extra_pkg  # if needed
+deactivate           # exit venv
 ```
 
-## After Activation
-
-Once activated, you'll see `(venv)` in your prompt. Then you can:
-
-1. **Start Jupyter Notebook:**
-   ```powershell
-   jupyter notebook
-   ```
-
-2. **Start JupyterLab:**
-   ```powershell
-   jupyter lab
-   ```
-
-3. **Run Python scripts:**
-   ```powershell
-   python your_script.py
-   ```
-
-4. **Install additional packages:**
-   ```powershell
-   pip install package_name
-   ```
+## Verify
+```
+python -c "import pandas, sklearn; print('Ready for soil analysis!')"
+```
 
 ## Troubleshooting
+- **No venv?** Delete `venv/`, rerun setup.
+- **Wrong dir?** `cd` to project root.
+- **Windows policy?** Use CMD/Git Bash.
+- **Packages missing?** Rerun setup.
 
-### "Script not recognized" Error
-If PowerShell says the script is not recognized:
-- Make sure you're in the correct directory: `cd "c:\Users\tigra\Soil Analysis"`
-- Try using the full path: `& "c:\Users\tigra\Soil Analysis\venv\Scripts\Activate.ps1"`
-
-### Execution Policy Error
-If you get an execution policy error:
-```powershell
-Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
-```
-Then try activating again.
-
-### Alternative: Use Command Prompt
-If PowerShell continues to have issues, you can use Command Prompt (cmd):
-```cmd
-cd "c:\Users\tigra\Soil Analysis"
-venv\Scripts\activate.bat
-```
-
-## Verify Installation
-
-To verify everything is working:
-```powershell
-python -c "import pandas, numpy, sklearn; print('All packages installed!')"
-```
+Project now runs on **Windows, Linux, Mac** without changes!

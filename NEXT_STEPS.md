@@ -1,10 +1,10 @@
 # Next Steps for Soil Analysis ML Project
 
 ## ✅ Completed
-- [x] Environment setup
-- [x] Data preprocessing pipeline
-- [x] Feature scaling (numeric columns)
-- [x] GitHub repository setup
+- [x] Cross-platform environment setup
+- [x] Data preprocessing
+- [x] Feature scaling
+- [x] Training pipeline (`src/run_training.py`)
 
 ## 🎯 Recommended Next Steps
 
