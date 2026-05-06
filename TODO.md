@@ -1,17 +1,10 @@
-# Cross-Platform Portability TODO
+# Fix ValueError on Deploy - Approved Plan Steps
 
-## Approved Plan Steps (from BLACKBOXAI)
+## Current Progress
+**Step 1: [x] Create/update TODO.md** 
+**Step 2: [x] Edit app.py to fix preprocessing (qcut for single row, scaler shape, try/except)**
+**Step 3: [x] Test locally: streamlit run app.py (server started)**
+**Step 4: [ ] Retrain if needed: python src/run_training.py**
+**Step 5: [ ] Test prediction works**
+**Step 6: [ ] attempt_completion**
 
-**Completed:**
-- [x] Create TODO.md to track progress
-- [x] Create cross-platform setup scripts (setup.sh, setup.bat)
-- [x] Create activation scripts (activate.sh, activate.bat)
-- [x] Delete Windows-only .ps1 files
-
-**Completed:**
-- [x] All documentation updated (README, QUICK_START, NEXT_STEPS)
-- [x] .gitignore verified (venv ignored)
-
-**Final Steps:**
-1. Test: `setup.bat && python src/run_training.py`
-2. Complete task
